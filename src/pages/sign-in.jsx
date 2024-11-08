@@ -285,7 +285,7 @@ const SignIn = () => {
               src="https://res.cloudinary.com/dzvvkja2y/image/upload/v1731050555/Vector_kgknjw.png"
             />
             <img
-              className="w-[300px] h-[400px] absolute top-10 right-0 transform translate-x-10 z-0 opacity-75"
+              className="w-[300px] h-[400px] absolute top-0 right-0 transform translate-x-10 z-0 opacity-75"
               loading="lazy"
               alt="Vector 2"
               src="https://res.cloudinary.com/dzvvkja2y/image/upload/v1731050555/Vector_kgknjw.png"
