@@ -2,7 +2,10 @@ import { useState } from "react";
 import Typewriter from "typewriter-effect";
 
 const SignIn = () => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState({
+    email: "",
+    password: "",
+  });
 
   //   useEffect(() => {
   //     setValue(value);
@@ -30,7 +33,7 @@ const SignIn = () => {
                 type="text"
                 id="email"
                 name="username"
-                value={value}
+                value={value.email}
                 onChange={(e) => setValue(e.target.value)}
                 className="w-full px-4 py-3  bg-[#1C1D21] border-b text-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-600"
                 placeholder="User123@Hotmail.com"
@@ -48,7 +51,7 @@ const SignIn = () => {
                 <input
                   id="password"
                   name="password"
-                  value={value}
+                  value={value.password}
                   className="w-full px-4 py-3  bg-[#1C1D21] border-b text-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-600"
                   placeholder="Enter your password"
                   required
@@ -235,12 +238,11 @@ const SignIn = () => {
             />
           </p>
 
-          {/* Typing "student portal" */}
           <p className="block font-thin text-7xl font-sans text-white">
             <Typewriter
               onInit={(typewriter) => {
                 typewriter
-                  .pauseFor(1500) // Pause to synchronize with the first typewriter
+                  .pauseFor(1500)
                   .typeString("student portal")
                   .callFunction(() => {
                     console.log('Finished typing "Welcome to"');
@@ -256,12 +258,11 @@ const SignIn = () => {
             />
           </p>
 
-          {/* Typing "Login to access your account" */}
           <p className="block text-sm font-light text-white">
             <Typewriter
               onInit={(typewriter) => {
                 typewriter
-                  .pauseFor(3000) // Pause to synchronize with the previous typewriter
+                  .pauseFor(3000)
                   .typeString("Login to access your account")
                   .callFunction(() => {
                     console.log('Finished typing "Welcome to"');
