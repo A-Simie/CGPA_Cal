@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Typewriter from "typewriter-effect";
 
 const SignIn = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [value, setValue] = useState({
     email: "",
     password: "",
@@ -99,6 +103,7 @@ const SignIn = () => {
               <button
                 type="button"
                 className="text-white bg-[#CAB7A2]   focus:ring-4 focus:outline-none focus:ring-[#9C6FE4] font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 "
+                onClick={() => navigate("/cgpa_calculator")}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -218,66 +223,67 @@ const SignIn = () => {
       </div>
       <div className="hidden lg:flex w-full lg:w-7/12 flex-col items-center justify-center bg-[#925FE2] relative">
         <div className=" space-y-4">
-          <p className="text-7xl font-bold font-sans text-white">
-            <Typewriter
-              onInit={(typewriter) => {
-                typewriter
-                  .typeString("Welcome to")
-                  .pauseFor(500)
-                  .callFunction(() => {
-                    console.log('Finished typing "Welcome to"');
+          {location.pathname === "/" && (
+            <>
+              <p className="text-7xl font-bold font-sans text-white">
+                <Typewriter
+                  onInit={(typewriter) => {
+                    typewriter
+                      .typeString("Welcome to")
+                      .pauseFor(500)
+                      .callFunction(() => {
+                        console.log('Finished typing "Welcome to"');
 
-                    const cursor = document.querySelector(
-                      ".Typewriter__cursor"
-                    );
-                    console.log(cursor ? true : false);
-                    if (cursor) cursor.style.display = "none";
-                  })
-                  .start();
-              }}
-            />
-          </p>
+                        const cursor = document.querySelector(
+                          ".Typewriter__cursor"
+                        );
+                        console.log(cursor ? true : false);
+                        if (cursor) cursor.style.display = "none";
+                      })
+                      .start();
+                  }}
+                />
+              </p>
+              <p className="block font-thin text-7xl font-sans text-white">
+                <Typewriter
+                  onInit={(typewriter) => {
+                    typewriter
+                      .pauseFor(1500)
+                      .typeString("student portal")
+                      .callFunction(() => {
+                        console.log('Finished typing "Welcome to"');
 
-          <p className="block font-thin text-7xl font-sans text-white">
-            <Typewriter
-              onInit={(typewriter) => {
-                typewriter
-                  .pauseFor(1500)
-                  .typeString("student portal")
-                  .callFunction(() => {
-                    console.log('Finished typing "Welcome to"');
+                        const cursor = document.querySelector(
+                          ".Typewriter__cursor"
+                        );
+                        console.log(cursor ? true : false);
+                        if (!cursor) cursor.style.display = "none";
+                      })
+                      .start();
+                  }}
+                />
+              </p>
+              <p className="block text-sm font-light text-white">
+                <Typewriter
+                  onInit={(typewriter) => {
+                    typewriter
+                      .pauseFor(3000)
+                      .typeString("Login to access your account")
+                      .callFunction(() => {
+                        console.log('Finished typing "Welcome to"');
 
-                    const cursor = document.querySelector(
-                      ".Typewriter__cursor"
-                    );
-                    console.log(cursor ? true : false);
-                    if (!cursor) cursor.style.display = "none";
-                  })
-                  .start();
-              }}
-            />
-          </p>
-
-          <p className="block text-sm font-light text-white">
-            <Typewriter
-              onInit={(typewriter) => {
-                typewriter
-                  .pauseFor(3000)
-                  .typeString("Login to access your account")
-                  .callFunction(() => {
-                    console.log('Finished typing "Welcome to"');
-
-                    const cursor = document.querySelector(
-                      ".Typewriter__cursor"
-                    );
-                    console.log(cursor ? true : false);
-                    if (!cursor) cursor.style.display = "none";
-                  })
-                  .start();
-              }}
-            />
-          </p>
-
+                        const cursor = document.querySelector(
+                          ".Typewriter__cursor"
+                        );
+                        console.log(cursor ? true : false);
+                        if (!cursor) cursor.style.display = "none";
+                      })
+                      .start();
+                  }}
+                />
+              </p>
+            </>
+          )}
           <div className="relative">
             <img
               className="w-[300px] h-[400px] absolute top-0 left-0 transform -translate-x-10 -translate-y-5 z-0 opacity-75"
