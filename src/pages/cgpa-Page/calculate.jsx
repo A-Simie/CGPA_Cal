@@ -226,14 +226,14 @@ const Calculate = () => {
           className="flex items-center justify-center mt-4"
         >
           <div className="bg-white border-2 border-gray-300 rounded-md shadow-md p-6 w-full max-w-sm sm:max-w-md md:max-w-4xl lg:max-w-5xl xl:max-w-6xl">
-            <div className="flex items-center justify-between -mt-10">
+            <div className="flex items-center justify-between -mt-4">
               <span className="block text-[#03045E] font-sans pt-4 sm:pt-6 pb-4 sm:pb-6 font-normal text-left text-lg sm:text-xl md:text-2xl lg:text-4xl">
                 Semester {toRoman(semesterIndex + 1)}
               </span>{" "}
               {semesters[semesterIndex]?.gpa === "" ? (
                 <button
                   type="button"
-                  className="text-[#046865]  hover:bg-[#dff0ef] focus:ring-4 focus:outline-none focus:ring-red-100 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+                  className="text-[#046865] backdrop:hover:bg-[#dff0ef] focus:ring-4 focus:outline-none focus:ring-red-100 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
                   onClick={() => removeSemester(semesterIndex)}
                 >
                   <svg
