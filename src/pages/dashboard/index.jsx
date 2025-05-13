@@ -1,318 +1,296 @@
 import { useState } from "react";
-import {
-  Home,
-  GraduationCap,
-  Mail,
-  Settings,
-  LogOut,
-  ChevronRight,
-  ChevronLeft,
-  Menu,
-  Search,
-  Bell,
-  User,
-} from "lucide-react";
+import MaleIcon from "./../../assets/Illustration.png";
+import Spain from "../../assets/spain-svgrepo-com.svg";
+import LearningChart from "../../components/learningChart";
+import CourseCard from "../../components/courseCard";
+import CardGrid from "../../components/cardGrid";
 
-// Original Sidebar Component (Desktop)
-const DesktopSidebar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <div className="hidden md:block relative">
-      {/* Background overlay when sidebar is expanded */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm transition-all duration-300"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-
-      {/* Sidebar Container */}
-      <div
-        className={`fixed left-3 top-3 h-[95vh] bg-black text-white transition-all duration-300 rounded-2xl py-6 px-2 flex flex-col 
-        ${isOpen ? "w-64 shadow-2xl px-5" : "w-20"}`}
-      >
-        {/* Top Section - Logo */}
-        <div className="text-3xl font-bold flex justify-center pb-4">F.</div>
-
-        {/* Scrollable Middle Section */}
-        <div
-          className="flex flex-col space-y-6 w-full h-[53vh] overflow-y-auto"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          <SidebarIcon icon={<Home size={24} />} text="Home" isOpen={isOpen} />
-          <SidebarIcon
-            icon={<GraduationCap size={24} />}
-            text="Courses"
-            isOpen={isOpen}
-          />
-          <SidebarIcon
-            icon={<Mail size={24} />}
-            text="Messages"
-            isOpen={isOpen}
-          />
-          <SidebarIcon
-            icon={<Settings size={24} />}
-            text="Settings"
-            isOpen={isOpen}
-          />
-          {/* Add more icons as needed */}
-        </div>
-
-        {/* Bottom Section - Logout (Sticky) */}
-        <div className="mt-auto">
-          <SidebarIcon
-            icon={<LogOut size={24} />}
-            text="Logout"
-            isOpen={isOpen}
-          />
-        </div>
-      </div>
-
-      {/* Toggle Button */}
-      <button
-        className={`absolute top-1/2 transform -translate-y-1/2 p-2 bg-gray-800 hover:bg-gray-700 rounded-full shadow-lg transition-all duration-300
-        ${isOpen ? "left-[15.5rem]" : "left-[4.5rem]"}`}
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {isOpen ? (
-          <ChevronLeft className="text-white" size={24} />
-        ) : (
-          <ChevronRight className="text-white" size={24} />
-        )}
-      </button>
-    </div>
-  );
-};
-
-// Sidebar Icon Component
-// eslint-disable-next-line react/prop-types
-const SidebarIcon = ({ icon, text, isOpen }) => {
-  return (
-    <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 transition duration-300 cursor-pointer w-full">
-      {icon}
-      {isOpen && <span className="text-lg">{text}</span>}
-    </div>
-  );
-};
-
-// Mobile Navigation
-// eslint-disable-next-line react/prop-types
-const MobileNavbar = ({ onSidebarToggle }) => {
-  return (
-    <div className="md:hidden fixed top-0 left-0 right-0 bg-white shadow-md z-20 flex items-center justify-between p-4">
-      <button onClick={onSidebarToggle}>
-        <Menu size={24} />
-      </button>
-
-      <div className="text-2xl font-bold">F.</div>
-
-      <div className="flex items-center space-x-4">
-        <button>
-          <Search size={20} />
-        </button>
-        <button>
-          <Bell size={20} />
-        </button>
-        <button>
-          <User size={20} className="rounded-full" />
-        </button>
-      </div>
-    </div>
-  );
-};
-
-// Mobile Sidebar
-// eslint-disable-next-line react/prop-types
-const MobileSidebar = ({ isOpen, onClose }) => {
-  return (
-    <>
-      {/* Overlay */}
-      {isOpen && (
-        <div
-          className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
-          onClick={onClose}
-        />
-      )}
-
-      {/* Sidebar */}
-      <div
-        className={`
-          md:hidden fixed top-0 left-0 h-full w-64 bg-black text-white 
-          transform transition-transform duration-300 z-40
-          ${isOpen ? "translate-x-0" : "-translate-x-full"}
-        `}
-      >
-        <div className="p-6 flex justify-between items-center">
-          <span className="text-3xl font-bold">F.</span>
-          <button onClick={onClose}>
-            <Menu size={24} />
-          </button>
-        </div>
-
-        {/* <nav className="mt-8 space-y-2 px-4">
-          <SidebarItem icon={<Home />} text="Home" />
-          <SidebarItem icon={<GraduationCap />} text="Courses" />
-          <SidebarItem icon={<Mail />} text="Messages" />
-          <SidebarIcon
-            icon={<GraduationCap size={24} />}
-            text="Courses"
-            isOpen={isOpen}
-          />
-          <SidebarItem icon={<Settings />} text="Settings" />
-          <div className="border-t border-gray-700 pt-4 mt-4">
-            <SidebarItem icon={<LogOut />} text="Logout" />
-          </div>
-          <div className="mt-auto">
-            <SidebarIcon
-              icon={<LogOut size={24} />}
-              text="Logout"
-              isOpen={isOpen}
-            />
-          </div>
-        </nav> */}
-
-        {/* Scrollable Middle Section */}
-        <div
-          className="flex flex-col space-y-6 w-full h-[53vh] overflow-y-auto"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          <SidebarIcon icon={<Home size={24} />} text="Home" isOpen={isOpen} />
-          <SidebarIcon
-            icon={<GraduationCap size={24} />}
-            text="Courses"
-            isOpen={isOpen}
-          />
-          <SidebarIcon
-            icon={<Mail size={24} />}
-            text="Messages"
-            isOpen={isOpen}
-          />
-          <SidebarIcon
-            icon={<Settings size={24} />}
-            text="Settings"
-            isOpen={isOpen}
-          />
-          {/* Add more icons as needed */}
-        </div>
-
-        {/* Bottom Section - Logout (Sticky) */}
-        <div className="mt-auto">
-          <SidebarIcon
-            icon={<LogOut size={24} />}
-            text="Logout"
-            isOpen={isOpen}
-          />
-        </div>
-      </div>
-    </>
-  );
-};
-
-// const SidebarItem = ({ icon, text }) => {
-//   return (
-//     <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition duration-300 cursor-pointer">
-//       {icon}
-//       <span>{text}</span>
-//     </div>
-//   );
-// };
-
-// Dashboard with Responsive Navigation
 const Dashboard = () => {
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const chartData = [
+    { day: "mon", hours: 0 },
+    { day: "tue", hours: 1.5 },
+    { day: "wed", hours: 2.5 },
+    { day: "thu", hours: 1 },
+    { day: "fri", hours: 4 },
+    { day: "sat", hours: 3 },
+    { day: "sun", hours: 2 },
+  ];
+  const [courseList] = useState([
+    {
+      title: "Learn Figma",
+      instructor: "by Christopher Morgan",
+      duration: "6h 30min",
+      rating: 4.9,
+      isCurrent: true,
+    },
+    {
+      title: "Analog Photography",
+      instructor: "by Gordon Norman",
+      duration: "3h 15min",
+      rating: 4.7,
+      isCurrent: false,
+    },
+    {
+      title: "Master Instagram",
+      instructor: "by Sophie Gill",
+      duration: "7h 40min",
+      rating: 4.6,
+      isCurrent: false,
+    },
+    {
+      title: "Basics of Drawing",
+      instructor: "by Jean Tate",
+      duration: "11h 30min",
+      rating: 4.8,
+      isCurrent: true,
+    },
+    {
+      title: "Photoshop - Essence",
+      instructor: "by David Green",
+      duration: "5h 35min",
+      rating: 4.7,
+      isCurrent: true,
+    },
+  ]);
+  const completedCourses = courseList.filter(
+    (course) => !course.isCurrent
+  ).length;
+  const ongoingCourses = courseList.filter((course) => course.isCurrent).length;
 
-  const toggleMobileSidebar = () => {
-    setIsMobileSidebarOpen(!isMobileSidebarOpen);
-  };
+  // Create the card data dynamically
+  const cardData = [
+    {
+      number: ongoingCourses,
+      description: "Courses in Progress",
+    },
+    {
+      number: completedCourses,
+      description: "Courses Completed",
+    },
+  ];
 
   return (
-    <div className="flex">
-      {/* Desktop Sidebar */}
-      <DesktopSidebar />
-
-      {/* Mobile Navigation */}
-      <MobileNavbar onSidebarToggle={toggleMobileSidebar} />
-
-      {/* Mobile Sidebar */}
-      <MobileSidebar
-        isOpen={isMobileSidebarOpen}
-        onClose={() => setIsMobileSidebarOpen(false)}
-      />
-
-      {/* Content Area */}
-      <div
-        className="
-          w-full 
-          mt-16 md:mt-0 
-          md:pl-[9.5rem] 
-          p-4 md:p-8
-        "
-      >
+    <div className="mt-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Dashboard Content */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold">Hello Josh!</h1>
-            <p className="text-gray-500">Its good to see you again.</p>
-          </div>
-          <div className="flex items-center space-x-4">
-            <div className="flex flex-col items-center">
-              <span className="font-bold text-lg">11</span>
-              <span className="text-gray-500">Courses completed</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="font-bold text-lg">4</span>
-              <span className="text-gray-500">Courses in progress</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Rest of your dashboard content */}
         <div className="space-y-4">
-          <div className="bg-white border rounded-lg p-4">
-            <h2 className="text-xl font-semibold mb-4">Current Course</h2>
+          <div className="bg-gray-100 border rounded-lg p-4 ">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center space-x-5">
+                <div>
+                  <h3 className="font-black text-4xl text-gray-900">
+                    Hello Josh!
+                  </h3>
+                  <p className="text-gray-900">
+                    It&apos;s good to see you again
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <img className="-mt-[3.5rem] -mb-4" src={MaleIcon} alt="" />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gray-100 border rounded-lg p-4">
             <div className="flex justify-between items-center">
               <div className="flex items-center space-x-4">
-                <div className="bg-yellow-100 p-2 rounded-lg">🇪🇸</div>
+                <div className="bg-white p-2 rounded-lg">
+                  <img src={Spain} alt="spain" className="w-5 h-5" />
+                </div>
                 <div>
-                  <h3 className="font-medium">Spanish B2</h3>
-                  <p className="text-gray-500">By Alejandro Velazquez</p>
+                  <h3 className="font-black text-gray-900">Spanish B2</h3>
+                  <p className="text-gray-900">by Alejandro Velazquez</p>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
-                <span className="text-green-500">83%</span>
+                <span className="text-green-500">
+                  <div className="relative size-10">
+                    <svg
+                      className="size-full -rotate-90"
+                      viewBox="0 0 36 36"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="16"
+                        fill="none"
+                        className="stroke-current text-gray-200 "
+                        strokeWidth="2"
+                      ></circle>
+
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="16"
+                        fill="none"
+                        className="stroke-current text-gray-900 "
+                        strokeWidth="2"
+                        strokeDasharray="100"
+                        strokeDashoffset="17"
+                        strokeLinecap="round"
+                      ></circle>
+                    </svg>
+
+                    <div className="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
+                      <span className="text-center text-sm font-bold text-gray-400">
+                        83%
+                      </span>
+                    </div>
+                  </div>
+                </span>
                 <button className="bg-black text-white px-4 py-2 rounded-lg">
                   Continue
                 </button>
               </div>
+              <div className="flex items-center space-x-4">
+                <div className="flex">
+                  <div className="flex items-center justify-center px-3 h-8 me-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-3xl hover:bg-gray-100 hover:text-gray-700 ">
+                    <svg
+                      className="w-3.5 h-3.5 me-2 rtl:rotate-180"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 14 10"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M13 5H1m0 0 4 4M1 5l4-4"
+                      />
+                    </svg>
+                  </div>
+                  <div className="flex items-center justify-center px-3 h-8 me-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-3xl hover:bg-gray-100 hover:text-gray-700 ">
+                    <svg
+                      className="w-3.5 h-3.5 ms-2 rtl:rotate-180"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 14 10"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M1 5h12m0 0L9 1m4 4L9 9"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+        {/* Rest of your dashboard content */}
+        <div className="space-y-4">
+          <form className="flex items-center justify-between ">
+            <label className="sr-only">Search</label>
+            <div className="relative w-3/4">
+              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg
+                  className="w-4 h-4 me-2"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                  />
+                </svg>
+              </div>
+              <input
+                type="text"
+                id="voice-search"
+                className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 "
+                placeholder="Search"
+                required
+              />
+              <button
+                type="button"
+                className="absolute inset-y-0 end-0 flex items-center pe-3"
+              >
+                <svg
+                  className="w-4 h-4 text-gray-500 dark:text-gray-400 hover:text-gray-900 "
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 16 20"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 7v3a5.006 5.006 0 0 1-5 5H6a5.006 5.006 0 0 1-5-5V7m7 9v3m-3 0h6M7 1h2a3 3 0 0 1 3 3v5a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V4a3 3 0 0 1 3-3Z"
+                  />
+                </svg>
+              </button>
+            </div>
 
-          <div className="bg-white border rounded-lg p-4">
-            <h2 className="text-xl font-semibold mb-4">Courses</h2>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center space-x-4">
-                  <div className="bg-gray-100 p-2 rounded-lg">🎨</div>
-                  <div>
-                    <h3 className="font-medium">Learn Figma</h3>
-                    <p className="text-gray-500">By Christopher Morgan</p>
-                  </div>
-                </div>
-                <span className="text-yellow-500">★ 4.9</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center space-x-4">
-                  <div className="bg-gray-100 p-2 rounded-lg">📷</div>
-                  <div>
-                    <h3 className="font-medium">Analog Photography</h3>
-                    <p className="text-gray-500">By Gordon Norman</p>
-                  </div>
-                </div>
-                <span className="text-yellow-500">★ 4.7</span>
-              </div>
-            </div>
+            <button
+              id="dropdownNotificationButton"
+              data-dropdown-toggle="dropdownNotification"
+              className="relative inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none "
+              type="button"
+            >
+              <svg
+                className="w-5 h-5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 14 20"
+              >
+                <path d="M12.133 10.632v-1.8A5.406 5.406 0 0 0 7.979 3.57.946.946 0 0 0 8 3.464V1.1a1 1 0 0 0-2 0v2.364a.946.946 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C1.867 13.018 0 13.614 0 14.807 0 15.4 0 16 .538 16h12.924C14 16 14 15.4 14 14.807c0-1.193-1.867-1.789-1.867-4.175ZM3.823 17a3.453 3.453 0 0 0 6.354 0H3.823Z" />
+              </svg>
+
+              <div className="absolute block w-3 h-3 bg-red-500 border-2 border-white rounded-full -top-0.5 start-2.5"></div>
+            </button>
+
+            <button
+              id="dropdownUserAvatarButton"
+              data-dropdown-toggle="dropdownAvatar"
+              className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+              type="button"
+            >
+              <span className="sr-only">Open user menu</span>
+              <img
+                className="w-8 h-8 rounded-full"
+                src="/docs/images/people/profile-picture-3.jpg"
+                alt="user photo"
+              />
+            </button>
+          </form>
+          <CardGrid cards={cardData} />
+        </div>
+
+        {/* leave this here for now */}
+
+        <div className="bg-white border rounded-lg p-4">
+          <h2 className="text-xl font-semibold mb-4">Courses</h2>
+          <div className="space-y-3">
+            {courseList.map((course, index) => (
+              <CourseCard
+                key={index}
+                title={course.title}
+                instructor={course.instructor}
+                duration={course.duration}
+                rating={course.rating}
+                isCurrent={course.isCurrent}
+              />
+            ))}{" "}
           </div>
+        </div>
+        <div className="space-y-4 md:-mt-[12vh]">
+          <LearningChart data={chartData} viewType="Weekly" />
         </div>
       </div>
     </div>
