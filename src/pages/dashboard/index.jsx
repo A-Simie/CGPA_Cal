@@ -7,6 +7,7 @@ import CardGrid from "../../components/cardGrid";
 import LanguageCard from "../../components/languageCard";
 
 const Dashboard = () => {
+  const [userName] = ["Josh"];
   const chartData = [
     { day: "mon", hours: 0 },
     { day: "tue", hours: 1.5 },
@@ -80,7 +81,7 @@ const Dashboard = () => {
               <div className="flex items-center space-x-5">
                 <div>
                   <h3 className="font-black text-4xl text-gray-900">
-                    Hello Josh!
+                    Hello <span className="text-[#00ADB5]">{userName}!</span>
                   </h3>
                   <p className="text-gray-900">
                     It&apos;s good to see you again

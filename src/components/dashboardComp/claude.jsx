@@ -4,7 +4,7 @@ import { Home, User, Mail, Settings, Book } from "lucide-react";
 const Sidebar = () => {
   return (
     <div className="bg-black w-20 h-screen fixed left-0 top-0 flex flex-col items-center py-6">
-      <div className="text-white font-bold text-2xl mb-8">F.</div>
+      <div className="text-[#00ADB5] font-bold text-2xl mb-8">F.</div>
       <nav className="space-y-6">
         <div className="text-white/50 hover:text-white cursor-pointer">
           <Home size={24} />

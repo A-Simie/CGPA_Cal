@@ -69,7 +69,7 @@ const CourseCard = ({
               <span className="text-yellow-500">★</span>
               <span className="ml-1 text-gray-700">{rating}</span>
             </div>
-            <button className="px-4 py-2 bg-white text-gray-950 text-sm border border-black rounded-lg">
+            <button className="px-4 py-2 bg-white text-gray-950 text-sm border-2 border-[#00ADB5] rounded-lg">
               {isCurrent !== true ? "Continue" : "View Course"}
             </button>
           </div>

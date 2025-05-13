@@ -210,13 +210,14 @@ const Calculate = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F2F7F7] border-2 border-gray-300 rounded-md shadow-md p-6 w-full ">
-      <p
-        className="text-[#03045E] font-sans font-black 
-        md:text-4xl px-6 pt-8"
-      >
-        GPA CALCULATOR
-      </p>
+    <>
+      <div className="flex items-center justify-center">
+        <div className="w-full max-w-sm sm:max-w-md md:max-w-4xl lg:max-w-5xl xl:max-w-6xl">
+          <p className="text-[#3A4750] text-xl font-sans font-black md:text-4xl pt-8">
+            GPA CALCULATOR
+          </p>
+        </div>
+      </div>
 
       {/* Semester Cards */}
 
@@ -227,13 +228,13 @@ const Calculate = () => {
         >
           <div className="bg-white border-2 border-gray-300 rounded-md shadow-md p-6 w-full max-w-sm sm:max-w-md md:max-w-4xl lg:max-w-5xl xl:max-w-6xl">
             <div className="flex items-center justify-between -mt-4">
-              <span className="block text-[#03045E] font-sans pt-4 sm:pt-6 pb-4 sm:pb-6 font-normal text-left text-lg sm:text-xl md:text-2xl lg:text-4xl">
+              <span className="block text-[#23a4aa] font-sans pt-4 sm:pt-6 pb-4 sm:pb-6 font-normal text-left text-lg sm:text-xl md:text-2xl lg:text-4xl">
                 Semester {toRoman(semesterIndex + 1)}
               </span>{" "}
               {semesters[semesterIndex]?.gpa === "" ? (
                 <button
                   type="button"
-                  className="text-[#046865] backdrop:hover:bg-[#dff0ef] focus:ring-4 focus:outline-none focus:ring-red-100 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+                  className="text-[#00ADB5] backdrop:hover:bg-[#dff0ef] focus:ring-4 focus:outline-none focus:ring-red-100 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
                   onClick={() => removeSemester(semesterIndex)}
                 >
                   <svg
@@ -269,7 +270,7 @@ const Calculate = () => {
             )}
             <form>
               <div className="overflow-x-auto">
-                <table className="table-auto w-full hidden sm:table text-left text-sm md:text-base text-[#046865]">
+                <table className="table-auto w-full hidden sm:table text-left text-sm md:text-base text-[#3A4750]">
                   {/* Table Headers */}
                   <thead className="bg-white">
                     <tr>
@@ -300,7 +301,7 @@ const Calculate = () => {
                         </td>
                         <td className="p-3">
                           <select
-                            className="bg-[#eef7f6] text-[#046865] text-sm rounded-lg focus:ring-[#046865] focus:border-[#046865] block w-full p-2.5"
+                            className="bg-[#eef7f6] text-[#00ADB5] text-sm rounded-lg focus:ring-[#046865] focus:border-[#046865] block w-full p-2.5"
                             value={course.grade}
                             onChange={(e) =>
                               updateCourse(
@@ -583,7 +584,7 @@ const Calculate = () => {
         <div className="flex text-center justify-center p-10">
           <button
             type="button"
-            className="text-white  bg-[#03045E] hover:bg-[#03045E]/90 focus:ring-4 focus:outline-none focus:ring-[#03045E]/50 font-medium rounded-lg text-sm px-11 py-2.5 text-center inline-flex items-center  me-2 mb-2"
+            className="text-white  bg-[#303841] hover:bg-[#3A4750]/90 focus:ring-4 focus:outline-none focus:ring-[#03045E]/50 font-medium rounded-lg text-sm px-11 py-2.5 text-center inline-flex items-center  me-2 mb-2"
             onClick={calculateCGPA}
           >
             Calculate
@@ -597,7 +598,7 @@ const Calculate = () => {
           </button>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

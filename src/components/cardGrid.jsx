@@ -13,11 +13,11 @@ const Card = ({ number, description }) => {
           {number}
         </span>
         <div className="flex flex-col items-start text-left">
-          <span className="text-gray-600 text-sm md:text-base">
+          <span className="text-[#00ADB5] text-sm md:text-base">
             {firstLine}
           </span>
           {restLines && (
-            <span className="text-gray-600 text-sm md:text-base">
+            <span className="text-[#00ADB5] text-sm md:text-base">
               {restLines}
             </span>
           )}

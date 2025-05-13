@@ -42,21 +42,19 @@ function App() {
         </Route>
 
         {/* Dashboard and related pages */}
-        <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="cgpa" element={<CGPA />} />
-          <Route path="cgpa_calculator" element={<Calculate />} />
-          {/* <Route path="messages" element={<div>Messages Page</div>} />
-          <Route path="settings" element={<div>Settings Page</div>} /> */}
+        <Route element={<DashboardLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/cgpa" element={<CGPA />} />
+          <Route path="/cgpa_calculator" element={<Calculate />} />
         </Route>
 
         {/* Keep these routes under Auth if they need Auth wrapper */}
-        <Route path="/cgpa" element={<Auth />}>
+        {/* <Route path="/cgpa" element={<Auth />}>
           <Route index element={<CGPA />} />
         </Route>
         <Route path="/cgpa_calculator" element={<Auth />}>
           <Route index element={<Calculate />} />
-        </Route>
+        </Route> */}
       </Routes>
     </Router>
   );

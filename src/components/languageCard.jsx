@@ -149,7 +149,7 @@ const LanguageCard = ({ languageImage, title, instructor, progress }) => {
                   </div>
                 </div>
               </span>
-              <button className="bg-black text-white px-4 py-2 rounded-lg">
+              <button className="bg-[#00ADB5] text-white px-4 py-2 rounded-lg">
                 Continue
               </button>
             </div>

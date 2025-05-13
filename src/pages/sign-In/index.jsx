@@ -39,7 +39,7 @@ const SignIn = () => {
                 name="username"
                 value={value.email}
                 onChange={(e) => setValue(e.target.value)}
-                className="w-full px-4 py-3  bg-[#1C1D21] border-b text-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                className="w-full px-4 py-3  bg-[#1C1D21] border-b text-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00ADB5]"
                 placeholder="User123@Hotmail.com"
                 required
               />
@@ -56,7 +56,7 @@ const SignIn = () => {
                   id="password"
                   name="password"
                   value={value.password}
-                  className="w-full px-4 py-3  bg-[#1C1D21] border-b text-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                  className="w-full px-4 py-3  bg-[#1C1D21] border-b text-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00ADB5]"
                   placeholder="Enter your password"
                   required
                 />{" "}
@@ -87,7 +87,7 @@ const SignIn = () => {
               </a>
             </div>
             <div>
-              <button className="bg-[#925FE2] w-full p-2 rounded-lg text-white text-extrabold">
+              <button className="bg-[#00ADB5] w-full p-2 rounded-lg text-white text-extrabold hover:ring-[#6ed6db]">
                 Login
               </button>
             </div>
@@ -102,7 +102,7 @@ const SignIn = () => {
             <div className="flex  items-center justify-center">
               <button
                 type="button"
-                className="text-white bg-[#CAB7A2]   focus:ring-4 focus:outline-none focus:ring-[#9C6FE4] font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 "
+                className="text-white bg-[#CAB7A2]   focus:ring-4 focus:outline-none hover:ring-[#1f6064] font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 "
                 onClick={() => navigate("/cgpa_calculator")}
               >
                 <svg
@@ -221,7 +221,7 @@ const SignIn = () => {
           </div>
         </div>
       </div>
-      <div className="hidden lg:flex w-full lg:w-7/12 flex-col items-center justify-center bg-[#925FE2] relative">
+      <div className="hidden lg:flex w-full lg:w-7/12 flex-col items-center justify-center bg-[#00ADB5] relative">
         <div className=" space-y-4">
           {location.pathname === "/" && (
             <>
@@ -285,7 +285,7 @@ const SignIn = () => {
             </>
           )}
           <div className="relative">
-            <img
+            {/* <img
               className="w-[300px] h-[400px] absolute top-0 left-0 transform -translate-x-10 -translate-y-5 z-0 opacity-75"
               loading="lazy"
               alt="Vector 1"
@@ -296,7 +296,7 @@ const SignIn = () => {
               loading="lazy"
               alt="Vector 2"
               src="https://res.cloudinary.com/dzvvkja2y/image/upload/v1731050555/Vector_kgknjw.png"
-            />
+            /> */}
 
             <img
               className="w-[500px] h-[400px] relative z-10"

@@ -12,6 +12,7 @@ import {
   Search,
   Bell,
   User,
+  Calculator,
 } from "lucide-react";
 import { Link, Outlet } from "react-router-dom";
 
@@ -80,6 +81,12 @@ const DesktopSidebar = () => {
             text="Settings"
             isOpen={isOpen}
             to="/settings"
+          />
+          <SidebarIcon
+            icon={<Calculator size={24} />}
+            text="CGPA Calculator"
+            isOpen={isOpen}
+            to="/cgpa_calculator"
           />
         </div>
 
