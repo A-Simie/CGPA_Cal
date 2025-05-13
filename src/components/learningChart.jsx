@@ -12,6 +12,9 @@ import {
 const LearningChart = ({ data, viewType }) => {
   return (
     <div className="bg-white rounded-xl p-6">
+      <p className="text-2xl font-semibold text-[#00ADB5] mb-4 ">
+        Your Statistics
+      </p>
       <div className="flex justify-between items-center mb-6">
         <div className="flex gap-6">
           <button className="font-medium text-black">Learning Hours</button>

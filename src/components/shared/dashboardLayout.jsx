@@ -49,8 +49,11 @@ const DesktopSidebar = () => {
         ${isOpen ? "w-64 shadow-2xl px-5" : "w-20"}`}
       >
         {/* Top Section - Logo */}
-        <Link to="/" className="text-3xl font-bold flex justify-center pb-4">
-          F.
+        <Link
+          to="/"
+          className="text-3xl text-[#00ADB5] font-bold flex justify-center pb-4"
+        >
+          TC.
         </Link>
 
         {/* Scrollable Middle Section */}
@@ -69,6 +72,12 @@ const DesktopSidebar = () => {
             text="Courses"
             isOpen={isOpen}
             to="/courses"
+          />{" "}
+          <SidebarIcon
+            icon={<Calculator size={24} />}
+            text="CGPA Calculator"
+            isOpen={isOpen}
+            to="/cgpa_calculator"
           />
           <SidebarIcon
             icon={<Mail size={24} />}
@@ -81,12 +90,6 @@ const DesktopSidebar = () => {
             text="Settings"
             isOpen={isOpen}
             to="/settings"
-          />
-          <SidebarIcon
-            icon={<Calculator size={24} />}
-            text="CGPA Calculator"
-            isOpen={isOpen}
-            to="/cgpa_calculator"
           />
         </div>
 
@@ -126,8 +129,8 @@ const MobileNavbar = ({ onSidebarToggle }) => {
         <Menu size={24} />
       </button>
 
-      <Link to="/" className="text-2xl font-bold">
-        F.
+      <Link to="/" className="text-2xl text-[#00ADB5] font-bold">
+        TC.
       </Link>
 
       <div className="flex items-center space-x-4">
@@ -167,8 +170,8 @@ const MobileSidebar = ({ isOpen, onClose }) => {
         `}
       >
         <div className="p-6 flex justify-between items-center">
-          <Link to="/" className="text-3xl font-bold">
-            F.
+          <Link to="/" className="text-3xl text-[#00ADB5] font-bold">
+            TC.
           </Link>
           <button onClick={onClose}>
             <Menu size={24} />
