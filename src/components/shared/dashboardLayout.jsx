@@ -53,7 +53,7 @@ const DesktopSidebar = () => {
           to="/"
           className="text-3xl text-[#00ADB5] font-bold flex justify-center pb-4"
         >
-          TC.
+          S.
         </Link>
 
         {/* Scrollable Middle Section */}
@@ -130,7 +130,7 @@ const MobileNavbar = ({ onSidebarToggle }) => {
       </button>
 
       <Link to="/" className="text-2xl text-[#00ADB5] font-bold">
-        TC.
+        S.
       </Link>
 
       <div className="flex items-center space-x-4">
@@ -171,7 +171,7 @@ const MobileSidebar = ({ isOpen, onClose }) => {
       >
         <div className="p-6 flex justify-between items-center">
           <Link to="/" className="text-3xl text-[#00ADB5] font-bold">
-            TC.
+            S.
           </Link>
           <button onClick={onClose}>
             <Menu size={24} />
@@ -194,6 +194,12 @@ const MobileSidebar = ({ isOpen, onClose }) => {
             text="Courses"
             isOpen={true}
             to="/courses"
+          />
+          <SidebarIcon
+            icon={<Calculator size={24} />}
+            text="CGPA Calculator"
+            isOpen={isOpen}
+            to="/cgpa_calculator"
           />
           <SidebarIcon
             icon={<Mail size={24} />}

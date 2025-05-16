@@ -1,19 +1,109 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Typewriter from "typewriter-effect";
+import { Login } from "../../components/API/user";
+import toast from "react-hot-toast";
 
 const SignIn = () => {
-  const navigate = useNavigate();
   const location = useLocation();
 
   const [value, setValue] = useState({
     email: "",
     password: "",
   });
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    general: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  //   useEffect(() => {
-  //     setValue(value);
-  //   }, []);
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password) => {
+    const minLength = password.length >= 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    return {
+      isValid:
+        minLength &&
+        hasUpperCase &&
+        hasLowerCase &&
+        hasNumber &&
+        hasSpecialChar,
+      errors: [
+        !minLength && "at least 8 characters",
+        !hasUpperCase && "one uppercase letter",
+        !hasLowerCase && "one lowercase letter",
+        !hasNumber && "one number",
+        !hasSpecialChar && "one special character",
+      ].filter(Boolean),
+    };
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValue((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: "", general: "" }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const emailValid = validateEmail(value.email);
+    const passwordValidation = validatePassword(value.password);
+
+    if (!emailValid || !passwordValidation.isValid) {
+      setErrors({
+        email: emailValid ? "" : "Please enter a valid email address",
+        password: passwordValidation.isValid
+          ? ""
+          : `Password must contain ${passwordValidation.errors.join(", ")}`,
+        general: "",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+    try {
+      const data = await Login(value.email, value.password, setIsSubmitting);
+
+      console.log(data);
+      if (data.status == 200) {
+        toast.success("Login successful!");
+
+        const token = data.data.token;
+        localStorage.setItem("tokenScrivta", token);
+
+        setTimeout(() => {
+          window.location.href = "/dashboard";
+        }, 1500);
+      } else {
+        setErrors({
+          email: "",
+          password: "",
+          general: data.data.msg || "Login failed.",
+        });
+        toast.error(data.data.msg || "Login failed.");
+      }
+      // Do redirect or store token
+    } catch (error) {
+      setErrors({
+        email: "",
+        password: "",
+        general: error.message || "An error occurred. Please try again.",
+      });
+      toast.error(error.response.data.msg || "Login failed.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="flex flex-col lg:flex-row bg-[#1C1D21]  ">
@@ -25,7 +115,7 @@ const SignIn = () => {
           <p className="text-sm  font-sm text-[#FFFFFF]">
             Enter your account details
           </p>
-          <div className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
                 htmlFor="email"
@@ -34,15 +124,34 @@ const SignIn = () => {
                 Email
               </label>
               <input
-                type="text"
+                type="email"
                 id="email"
-                name="username"
+                name="email"
                 value={value.email}
-                onChange={(e) => setValue(e.target.value)}
-                className="w-full px-4 py-3  bg-[#1C1D21] border-b text-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00ADB5]"
+                onChange={handleChange}
+                className={`w-full px-4 py-3 bg-[#1C1D21] border-b text-white ${
+                  errors.email ? "border-red-500" : "border-gray-300"
+                } focus:outline-none focus:ring-2 focus:ring-[#00ADB5]`}
                 placeholder="User123@Hotmail.com"
                 required
               />
+              {errors.email && (
+                <p className="mt-2 text-xs text-red-500 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-5 h-5 mr-1.5"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  {errors.email}
+                </p>
+              )}
             </div>
             <div>
               <label
@@ -53,14 +162,22 @@ const SignIn = () => {
               </label>
               <div className="relative">
                 <input
+                  type="password"
                   id="password"
                   name="password"
                   value={value.password}
-                  className="w-full px-4 py-3  bg-[#1C1D21] border-b text-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00ADB5]"
+                  onChange={handleChange}
+                  className={`w-full px-4 py-3 bg-[#1C1D21] border-b text-white ${
+                    errors.password ? "border-red-500" : "border-gray-300"
+                  } focus:outline-none focus:ring-2 focus:ring-[#00ADB5]`}
                   placeholder="Enter your password"
                   required
-                />{" "}
-                <p className="flex items-start mt-2 text-xs text-slate-400">
+                />
+                <p
+                  className={`flex items-start mt-2 text-xs ${
+                    errors.password ? "text-red-500" : "text-slate-400"
+                  }`}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -73,11 +190,19 @@ const SignIn = () => {
                       clipRule="evenodd"
                     />
                   </svg>
-                  Use at least 8 characters, one uppercase, one lowercase,one
+                  Use at least 8 characters, one uppercase, one lowercase, one
                   special character and one number.
                 </p>
+                {errors.password && (
+                  <p className="mt-2 text-xs text-red-500">{errors.password}</p>
+                )}
               </div>
-            </div>{" "}
+            </div>
+            {errors.general && (
+              <p className="text-red-500 text-sm text-center">
+                {errors.general}
+              </p>
+            )}
             <div className="flex justify-start items-start">
               <a
                 href="/forgotPassword"
@@ -87,138 +212,25 @@ const SignIn = () => {
               </a>
             </div>
             <div>
-              <button className="bg-[#00ADB5] w-full p-2 rounded-lg text-white text-extrabold hover:ring-[#6ed6db]">
-                Login
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className={`bg-[#00ADB5] w-full p-2 rounded-lg text-white text-extrabold hover:ring-[#6ed6db] ${
+                  isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              >
+                {isSubmitting ? "Logging in..." : "Login"}
               </button>
             </div>
             <div className="fixed bottom-5 flex space-x-20 items-center justify-center">
               <span className="text-sm font-thin text-[#FFFFFF] ">
-                Don&nbsp;t have an account?
+                Don’t have an account?
               </span>
-              <button className="bg-[#333437]  p-3 rounded-lg text-white text-extrabold">
+              <button className="bg-[#333437] p-3 rounded-lg text-white text-extrabold">
                 Sign Up
               </button>
             </div>
-            <div className="flex  items-center justify-center">
-              <button
-                type="button"
-                className="text-white bg-[#CAB7A2]   focus:ring-4 focus:outline-none hover:ring-[#1f6064] font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 "
-                onClick={() => navigate("/cgpa_calculator")}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  x="0px"
-                  y="0px"
-                  width="100"
-                  height="100"
-                  viewBox="0 0 64 64"
-                  className="w-6 h-6 me-2"
-                  aria-hidden="true"
-
-                  // viewBox="0 0 18 21"
-                >
-                  <path
-                    fill="#7e8188"
-                    d="M10,11.25v42.5c0,2.347,1.949,4.25,4.353,4.25h28.294C45.051,58,47,56.097,47,53.75v-42.5	C47,8.903,45.051,7,42.647,7H14.353C11.949,7,10,8.903,10,11.25z"
-                  ></path>
-                  <path
-                    fill="#acb7d0"
-                    d="M14,13v6c0,1.105,0.999,2,2.231,2h24.539C42.001,21,43,20.105,43,19v-6c0-1.105-0.999-2-2.231-2	H16.23C14.998,11,14,11.895,14,13z"
-                  ></path>
-                  <circle cx="17.5" cy="28.5" r="3.5" fill="#e2e9f7"></circle>
-                  <circle cx="28.5" cy="28.5" r="3.5" fill="#e2e9f7"></circle>
-                  <circle cx="39.5" cy="28.5" r="3.5" fill="#efc88e"></circle>
-                  <circle cx="17.5" cy="39.5" r="3.5" fill="#e2e9f7"></circle>
-                  <circle cx="28.5" cy="39.5" r="3.5" fill="#e2e9f7"></circle>
-                  <circle cx="39.5" cy="39.5" r="3.5" fill="#efc88e"></circle>
-                  <circle cx="39.5" cy="50.5" r="3.5" fill="#efc88e"></circle>
-                  <path
-                    fill="#e2e9f7"
-                    d="M28.5,47h-11c-1.933,0-3.5,1.567-3.5,3.5s1.567,3.5,3.5,3.5h11c1.933,0,3.5-1.567,3.5-3.5	S30.433,47,28.5,47z"
-                  ></path>
-                  <path
-                    fill="#8d6c9f"
-                    d="M54,14h-2c-0.552,0-1-0.447-1-1s0.448-1,1-1h2c0.552,0,1,0.447,1,1S54.552,14,54,14z"
-                  ></path>
-                  <path
-                    fill="#8d6c9f"
-                    d="M54,19h-2c-0.552,0-1-0.447-1-1s0.448-1,1-1h2c0.552,0,1,0.447,1,1S54.552,19,54,19z"
-                  ></path>
-                  <path
-                    fill="#8d6c9f"
-                    d="M54,24h-2c-0.552,0-1-0.447-1-1s0.448-1,1-1h2c0.552,0,1,0.447,1,1S54.552,24,54,24z"
-                  ></path>
-                  <path
-                    fill="#8d6c9f"
-                    d="M54,29h-2c-0.552,0-1-0.447-1-1s0.448-1,1-1h2c0.552,0,1,0.447,1,1S54.552,29,54,29z"
-                  ></path>
-                  <path
-                    fill="#8d6c9f"
-                    d="M54,34h-2c-0.552,0-1-0.447-1-1s0.448-1,1-1h2c0.552,0,1,0.447,1,1S54.552,34,54,34z"
-                  ></path>
-                  <path
-                    fill="#8d6c9f"
-                    d="M54,39h-2c-0.552,0-1-0.447-1-1s0.448-1,1-1h2c0.552,0,1,0.447,1,1S54.552,39,54,39z"
-                  ></path>
-                  <path
-                    fill="#8d6c9f"
-                    d="M54,44h-2c-0.552,0-1-0.447-1-1s0.448-1,1-1h2c0.552,0,1,0.447,1,1S54.552,44,54,44z"
-                  ></path>
-                  <path
-                    fill="#8d6c9f"
-                    d="M54,49h-2c-0.552,0-1-0.447-1-1s0.448-1,1-1h2c0.552,0,1,0.447,1,1S54.552,49,54,49z"
-                  ></path>
-                  <path
-                    fill="#8d6c9f"
-                    d="M54,54h-2c-0.552,0-1-0.447-1-1s0.448-1,1-1h2c0.552,0,1,0.447,1,1S54.552,54,54,54z"
-                  ></path>
-                  <g>
-                    <path
-                      fill="#8d6c9f"
-                      d="M42.647,59H14.353C11.401,59,9,56.645,9,53.75v-42.5C9,8.355,11.401,6,14.353,6h28.294 C45.599,6,48,8.355,48,11.25v42.5C48,56.645,45.599,59,42.647,59z M14.353,8C12.504,8,11,9.458,11,11.25v42.5 c0,1.792,1.504,3.25,3.353,3.25h28.294C44.496,57,46,55.542,46,53.75v-42.5C46,9.458,44.496,8,42.647,8H14.353z"
-                    ></path>
-                    <path
-                      fill="#8d6c9f"
-                      d="M40.77,22H16.23C14.449,22,13,20.654,13,19v-6c0-1.654,1.449-3,3.231-3H40.77 c1.781,0,3.23,1.346,3.23,3v6C44,20.654,42.551,22,40.77,22z M16.23,12C15.552,12,15,12.448,15,13v6c0,0.552,0.552,1,1.231,1H40.77 c0.679,0,1.23-0.448,1.23-1v-6c0-0.552-0.552-1-1.23-1H16.23z"
-                    ></path>
-                    <path
-                      fill="#8d6c9f"
-                      d="M17.5,33c-2.481,0-4.5-2.019-4.5-4.5s2.019-4.5,4.5-4.5s4.5,2.019,4.5,4.5S19.981,33,17.5,33z M17.5,26c-1.378,0-2.5,1.121-2.5,2.5s1.122,2.5,2.5,2.5s2.5-1.121,2.5-2.5S18.878,26,17.5,26z"
-                    ></path>
-                    <path
-                      fill="#8d6c9f"
-                      d="M28.5,33c-2.481,0-4.5-2.019-4.5-4.5s2.019-4.5,4.5-4.5s4.5,2.019,4.5,4.5S30.981,33,28.5,33z M28.5,26c-1.378,0-2.5,1.121-2.5,2.5s1.122,2.5,2.5,2.5s2.5-1.121,2.5-2.5S29.878,26,28.5,26z"
-                    ></path>
-                    <path
-                      fill="#8d6c9f"
-                      d="M39.5,33c-2.481,0-4.5-2.019-4.5-4.5s2.019-4.5,4.5-4.5s4.5,2.019,4.5,4.5S41.981,33,39.5,33z M39.5,26c-1.378,0-2.5,1.121-2.5,2.5s1.122,2.5,2.5,2.5s2.5-1.121,2.5-2.5S40.878,26,39.5,26z"
-                    ></path>
-                    <path
-                      fill="#8d6c9f"
-                      d="M17.5,44c-2.481,0-4.5-2.019-4.5-4.5s2.019-4.5,4.5-4.5s4.5,2.019,4.5,4.5S19.981,44,17.5,44z M17.5,37c-1.378,0-2.5,1.121-2.5,2.5s1.122,2.5,2.5,2.5s2.5-1.121,2.5-2.5S18.878,37,17.5,37z"
-                    ></path>
-                    <path
-                      fill="#8d6c9f"
-                      d="M28.5,44c-2.481,0-4.5-2.019-4.5-4.5s2.019-4.5,4.5-4.5s4.5,2.019,4.5,4.5S30.981,44,28.5,44z M28.5,37c-1.378,0-2.5,1.121-2.5,2.5s1.122,2.5,2.5,2.5s2.5-1.121,2.5-2.5S29.878,37,28.5,37z"
-                    ></path>
-                    <path
-                      fill="#8d6c9f"
-                      d="M39.5,44c-2.481,0-4.5-2.019-4.5-4.5s2.019-4.5,4.5-4.5s4.5,2.019,4.5,4.5S41.981,44,39.5,44z M39.5,37c-1.378,0-2.5,1.121-2.5,2.5s1.122,2.5,2.5,2.5s2.5-1.121,2.5-2.5S40.878,37,39.5,37z"
-                    ></path>
-                    <path
-                      fill="#8d6c9f"
-                      d="M39.5,55c-2.481,0-4.5-2.019-4.5-4.5s2.019-4.5,4.5-4.5s4.5,2.019,4.5,4.5S41.981,55,39.5,55z M39.5,48c-1.378,0-2.5,1.121-2.5,2.5s1.122,2.5,2.5,2.5s2.5-1.121,2.5-2.5S40.878,48,39.5,48z"
-                    ></path>
-                    <path
-                      fill="#8d6c9f"
-                      d="M28.5,55h-11c-2.481,0-4.5-2.019-4.5-4.5s2.019-4.5,4.5-4.5h11c2.481,0,4.5,2.019,4.5,4.5 S30.981,55,28.5,55z M17.5,48c-1.378,0-2.5,1.121-2.5,2.5s1.122,2.5,2.5,2.5h11c1.378,0,2.5-1.121,2.5-2.5S29.878,48,28.5,48H17.5z"
-                    ></path>
-                  </g>
-                </svg>
-                CGPA CAL
-              </button>
-            </div>
-          </div>
+          </form>
         </div>
       </div>
       <div className="hidden lg:flex w-full lg:w-7/12 flex-col items-center justify-center bg-[#00ADB5] relative">
@@ -233,7 +245,6 @@ const SignIn = () => {
                       .pauseFor(500)
                       .callFunction(() => {
                         console.log('Finished typing "Welcome to"');
-
                         const cursor = document.querySelector(
                           ".Typewriter__cursor"
                         );
@@ -252,7 +263,6 @@ const SignIn = () => {
                       .typeString("student portal")
                       .callFunction(() => {
                         console.log('Finished typing "Welcome to"');
-
                         const cursor = document.querySelector(
                           ".Typewriter__cursor"
                         );
@@ -271,7 +281,6 @@ const SignIn = () => {
                       .typeString("Login to access your account")
                       .callFunction(() => {
                         console.log('Finished typing "Welcome to"');
-
                         const cursor = document.querySelector(
                           ".Typewriter__cursor"
                         );
@@ -285,19 +294,6 @@ const SignIn = () => {
             </>
           )}
           <div className="relative">
-            {/* <img
-              className="w-[300px] h-[400px] absolute top-0 left-0 transform -translate-x-10 -translate-y-5 z-0 opacity-75"
-              loading="lazy"
-              alt="Vector 1"
-              src="https://res.cloudinary.com/dzvvkja2y/image/upload/v1731050555/Vector_kgknjw.png"
-            />
-            <img
-              className="w-[300px] h-[400px] absolute top-0 right-0 transform translate-x-10 z-0 opacity-75"
-              loading="lazy"
-              alt="Vector 2"
-              src="https://res.cloudinary.com/dzvvkja2y/image/upload/v1731050555/Vector_kgknjw.png"
-            /> */}
-
             <img
               className="w-[500px] h-[400px] relative z-10"
               loading="lazy"
