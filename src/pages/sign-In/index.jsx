@@ -255,12 +255,12 @@ const SignIn = () => {
                   }}
                 />
               </p>
-              <p className="block font-thin text-7xl font-sans text-white">
+              <p className="block font-black text-7xl font-sans text-white">
                 <Typewriter
                   onInit={(typewriter) => {
                     typewriter
                       .pauseFor(1500)
-                      .typeString("student portal")
+                      .typeString(" Scrivta")
                       .callFunction(() => {
                         console.log('Finished typing "Welcome to"');
                         const cursor = document.querySelector(

@@ -72,7 +72,13 @@ const DesktopSidebar = () => {
             text="Courses"
             isOpen={isOpen}
             to="/courses"
-          />{" "}
+          />
+          <SidebarIcon
+            icon={<GraduationCap size={24} />}
+            text="Transcript"
+            isOpen={isOpen}
+            to="/transcript"
+          />
           <SidebarIcon
             icon={<Calculator size={24} />}
             text="CGPA Calculator"
@@ -194,6 +200,12 @@ const MobileSidebar = ({ isOpen, onClose }) => {
             text="Courses"
             isOpen={true}
             to="/courses"
+          />
+          <SidebarIcon
+            icon={<GraduationCap size={24} />}
+            text="Transcript"
+            isOpen={true}
+            to="/transcript"
           />
           <SidebarIcon
             icon={<Calculator size={24} />}

@@ -31,6 +31,7 @@ import CGPA from "./pages/cgpa-Page";
 import Calculate from "./pages/cgpa-Page/calculate";
 import Dashboard from "./pages/dashboard";
 import DashboardLayout from "./components/shared/dashboardLayout";
+import Transcript from "./pages/transcript/index";
 
 function App() {
   return (
@@ -44,8 +45,10 @@ function App() {
         {/* Dashboard and related pages */}
         <Route element={<DashboardLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/cgpa" element={<CGPA />} />
           <Route path="/cgpa_calculator" element={<Calculate />} />
+          <Route path="/transcript" element={<Transcript />} />
         </Route>
 
         {/* Keep these routes under Auth if they need Auth wrapper */}
